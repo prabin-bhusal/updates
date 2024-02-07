@@ -21,6 +21,7 @@ class Notice extends Model
         'notice_file',
         'notice_banner',
         'notice_date',
+        'user_id',
     ];
 
     /**

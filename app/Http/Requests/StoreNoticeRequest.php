@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use DateTime;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreNoticeRequest extends FormRequest
@@ -11,7 +12,7 @@ class StoreNoticeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,20 @@ class StoreNoticeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => ['required', 'max:255'],
+            'content' => ['required', 'max:2048'],
+            'notice_date' => ['required', 'date', 'date_format:Y-m-d'],
+            'cover_image_upload' => ['required', 'mimes:jpg,png', 'max:10240'],
+            'file_upload' => ['required', 'mimes:jpg,png,docx,pdf', 'max:55296'],
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        $notice_date = date_format(date_create($this->notice_date), 'Y-m-d');
+
+        $this->merge([
+            'notice_date' => $notice_date,
+        ]);
     }
 }

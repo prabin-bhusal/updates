@@ -17,5 +17,13 @@ class NoticeSeeder extends Seeder
         Notice::factory(3)
             ->for(User::factory())
             ->create();
+
+        Notice::factory(2)
+            ->for(User::factory())
+            ->create();
+
+        Notice::factory(5)
+            ->for(User::factory())
+            ->create();
     }
 }
