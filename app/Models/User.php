@@ -4,14 +4,18 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Relations\HasMany;
+=======
+use Illuminate\Database\Eloquent\SoftDeletes;
+>>>>>>> sudeep-k/notice-and-events
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -44,6 +48,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+<<<<<<< HEAD
     public function news(): HasMany
     {
         return $this->hasMany(News::class);
@@ -52,5 +57,13 @@ class User extends Authenticatable
     public function downloads(): HasMany
     {
         return $this->hasMany(Download::class);
+=======
+    /**
+     * Get the notices belonging to the user
+     */
+    public function notices()
+    {
+        return $this->hasMany(Notice::class);
+>>>>>>> sudeep-k/notice-and-events
     }
 }

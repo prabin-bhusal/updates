@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,5 +35,6 @@ Route::get('news/hello', [NewsController::class, 'showDatatable'])->name('news.h
 Route::resource('/news', NewsController::class);
 Route::get('/download/file/{id}', [DownloadController::class, 'download'])->name('download.download');
 Route::resource('/download', DownloadController::class);
+Route::resource('notices', NoticeController::class);
 
 require __DIR__ . '/auth.php';
