@@ -42,9 +42,9 @@ class NoticeController extends Controller
                 $notice_date_less_than = $notice_date_query['lt'];
             }
         }
-        
+
         $notices = Notice::where('title', 'LIKE', '%' . $title . '%')
-            ->whereDate('notice_date', '>=', $notice_date_greater_than)->whereDate('notice_date', '<=', $notice_date_less_than)->get();
+            ->whereDate('notice_date', '>=', $notice_date_greater_than)->whereDate('notice_date', '<=', $notice_date_less_than)->paginate(5);
 
         return view('notices.index', ['notices' => $notices]);
     }

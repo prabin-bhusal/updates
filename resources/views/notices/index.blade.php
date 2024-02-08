@@ -64,7 +64,7 @@
                                 Download
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                <span class="sr-only">Edit</span>
+                                Action
                             </th>
                         </tr>
                     </thead>
@@ -86,15 +86,25 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4">
-                                {{ $notice->notice_file }}
+                                @if(Str::of($notice->notice_file)->endsWith(['png', 'jpg']))
+                                png
+                                @elseif(Str::of($notice->notice_file)->endsWith('pdf'))
+                                pdf
+                                @else
+                                N/A
+                                @endif
                             </td>
-                            <td class="px-6 py-4 text-right">
-                                <a href="{{ route('notices.edit', ['notice', $notice->id]) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                            <td class="px-6 py-4 text-right space-x-4">
+                                <a href="{{ route('notices.edit', ['notice' => $notice->id]) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                <a href="{{ route('notices.destroy', ['notice' => $notice->id]) }}" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+                <div class="p-4">
+                    {{ $notices->links() }}
+                </div>
             </div>
 
         </div>
