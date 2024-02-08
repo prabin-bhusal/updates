@@ -35,5 +35,4 @@ Route::resource('/news', NewsController::class);
 Route::get('/download/file/{id}', [DownloadController::class, 'download'])->name('download.download');
 Route::resource('/download', DownloadController::class);
 
-
 require __DIR__ . '/auth.php';

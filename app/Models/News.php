@@ -10,6 +10,15 @@ class News extends Model
 {
     use HasFactory;
 
+    public function format()
+    {
+        return [
+            'news_id' => $this->id,
+            'author' => $this->user->email,
+            'title' => $this->title
+        ];
+    }
+
     protected $fillable = [
         'title', 'content', 'banner_image', 'user_id'
     ];
