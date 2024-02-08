@@ -21,14 +21,14 @@ class Notice extends Model
         'notice_file',
         'notice_banner',
         'notice_date',
-        'user_id',
+        'admin_id',
     ];
 
     /**
      * Get the user that created the notice
      */
-    public function user()
+    public function admin()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Admin::class);
     }
 }

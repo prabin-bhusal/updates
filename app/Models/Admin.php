@@ -4,13 +4,12 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class Admin extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
@@ -45,13 +44,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function news(): HasMany
+    /**
+     * Get the notices belonging to the admin
+     */
+    public function notices()
     {
-        return $this->hasMany(News::class);
-    }
-
-    public function downloads(): HasMany
-    {
-        return $this->hasMany(Download::class);
+        return $this->hasMany(Notice::class);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use DateTime;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class StoreNoticeRequest extends FormRequest
 {

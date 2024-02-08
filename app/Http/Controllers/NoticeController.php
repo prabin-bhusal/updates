@@ -5,46 +5,31 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreNoticeRequest;
 use App\Http\Requests\UpdateNoticeRequest;
 use App\Models\Notice;
+use App\Repositories\NoticeRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class NoticeController extends Controller
 {
+    private $noticeRepository;
+
+    public function __construct(NoticeRepositoryInterface $noticeRepository)
+    {
+        $this->noticeRepository = $noticeRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        /**
-         * TODOS:
-         * 1. title check
-         * 2. notice date greater than
-         * 3. notice date less than
-         */
-        $title = '';
-        $notice_date_greater_than = '0000-01-01';
-        $notice_date_less_than = '3000-01-01';
+        $title = $request->query('title') ?? '';
+        $notice_date_greater_than = $request->query('notice_date')['gt'] ?? '0000-01-01';
+        $notice_date_less_than = $request->query('notice_date')['lt'] ?? '3000-01-01';
 
-        if ($request->query('title')) {
-            $title = $request->query('title');
-        }
-        if ($request->query('notice_date')) {
-            $notice_date_query = $request->query('notice_date');
-
-            if (isset($notice_date_query['gt'])) {
-                $notice_date_greater_than = $notice_date_query['gt'];
-            }
-
-            if (isset($notice_date_query['lt'])) {
-                $notice_date_less_than = $notice_date_query['lt'];
-            }
-        }
-
-        $notices = Notice::where('title', 'LIKE', '%' . $title . '%')
-            ->whereDate('notice_date', '>=', $notice_date_greater_than)->whereDate('notice_date', '<=', $notice_date_less_than)->paginate(5);
+        $notices = $this->noticeRepository->getAllNotices($title, $notice_date_greater_than, $notice_date_less_than);
 
         return view('notices.index', ['notices' => $notices]);
     }
@@ -54,6 +39,8 @@ class NoticeController extends Controller
      */
     public function create()
     {
+        // only admin can access this else 402 response is returned
+        Gate::authorize('admin_authenticated');
         return view('notices.create');
     }
 
@@ -62,23 +49,16 @@ class NoticeController extends Controller
      */
     public function store(StoreNoticeRequest $request)
     {
-        DB::transaction(function () use ($request) {
-            $cover_image_path = $request->file('cover_image_upload')->store('public/notices_banners');
-            $download_file_path = $request->file('file_upload')->store('public/notices_downloads');
+        // only admin can access this else 402 response is returned
+        Gate::authorize('admin_authenticated');
 
-            // trim the path
-            $cover_image_path = Str::substr($cover_image_path, 23,);
-            $download_file_path = Str::substr($cover_image_path, 25,);
+        $title = $request->title;
+        $content = $request->content;
+        $cover_image = $request->file('cover_image_upload');
+        $download_file = $request->file('file_upload');
+        $notice_date = $request->notice_date;
 
-            Notice::create([
-                'title' => $request->title,
-                'content' => $request->content,
-                'notice_file' => $download_file_path,
-                'notice_banner' => $cover_image_path,
-                'notice_date' => $request->notice_date,
-                'user_id' => Auth::user()->id,
-            ]);
-        });
+        $this->noticeRepository->storeNotice($title, $content, $cover_image, $download_file, $notice_date);
 
         return redirect(route('notices.index'));
     }
@@ -96,6 +76,9 @@ class NoticeController extends Controller
      */
     public function edit(Notice $notice)
     {
+        // only admin can access this else 402 response is returned
+        Gate::authorize('admin_authenticated');
+
         return view('notices.edit', ['notice' => $notice]);
     }
 
@@ -104,30 +87,16 @@ class NoticeController extends Controller
      */
     public function update(UpdateNoticeRequest $request, Notice $notice)
     {
-        DB::transaction(function () use ($request, $notice) {
-            $params = [
-                'title' => $request->title ?? $notice->title,
-                'content' => $request->content ?? $notice->content,
-                'notice_date' => $request->notice_date ?? $notice->notice_date,
-            ];
+        // only admin can access this else 402 response is returned
+        Gate::authorize('admin_authenticated');
 
-            if ($request->hasFile('cover_image_upload')) {
-                Storage::delete('public/notices_banners' . $notice->cover_image_upload);
-                $cover_image_path = $request->file('cover_image_upload')->store('public/notices_banners');
-                $cover_image_path = Str::substr($cover_image_path, 23,);
+        $title = $request->title;
+        $content = $request->content;
+        $cover_image = $request->file('cover_image_upload') ?? null;
+        $download_file = $request->file('file_upload') ?? null;
+        $notice_date = $request->notice_date;
 
-                $params['notice_banner'] = $cover_image_path;
-            }
-            if ($request->hasFile('file_upload')) {
-                Storage::delete('public/notices_downloads' . $notice->cover_image_upload);
-                $download_file_path = $request->file('file_upload')->store('public/notices_downloads');
-                $download_file_path = Str::substr($cover_image_path, 25,);
-
-                $params['notice_file'] = $download_file_path;
-            }
-
-            $notice->update($params);
-        });
+        $this->noticeRepository->updateNotice($notice, $title, $content, $cover_image, $download_file, $notice_date);
 
         return redirect(route('notices.show', ['notice' => $notice->id]));
     }
@@ -137,13 +106,19 @@ class NoticeController extends Controller
      */
     public function destroy(Notice $notice)
     {
-        DB::transaction(function () use ($notice) {
-            Storage::delete('public/notices_banners' . $notice->cover_image_upload);
-            Storage::delete('public/notices_downloads' . $notice->cover_image_upload);
+        // only admin can access this else 402 response is returned
+        Gate::authorize('admin_authenticated');
 
-            Notice::destroy($notice->id);
-        });
+        $this->noticeRepository->destroyNotice($notice);
 
         return redirect(route('notices.index'));
+    }
+
+    /**
+     * Download the specified resource from storage.
+     */
+    public function download(Notice $notice)
+    {
+        return Storage::download('public/notices_downloads/' . $notice->notice_file);
     }
 }

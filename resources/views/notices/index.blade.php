@@ -11,7 +11,8 @@
 
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
-                        <form method="GET" action="{{ route('notices.index') }}">
+
+                        <form method="GET" action="{{ route('admin.notices.index') }}">
                             <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                                 <div class="flex flex-col">
                                     <label for="title" class="text-stone-600 text-sm font-medium">Title</label>
@@ -87,16 +88,24 @@
                             </td>
                             <td class="px-6 py-4">
                                 @if(Str::of($notice->notice_file)->endsWith(['png', 'jpg']))
-                                png
+                                <a href="{{ route('notice.download', ['notice' => $notice->id])}}">
+                                    <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-md text-sm px-2 py-1">png</button>
+                                </a>
                                 @elseif(Str::of($notice->notice_file)->endsWith('pdf'))
-                                pdf
+                                <a href="{{ route('notice.download', ['notice' => $notice->id])}}">
+                                    <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-md text-sm px-2 py-1">pdf</button>
+                                </a>
                                 @else
                                 N/A
                                 @endif
                             </td>
-                            <td class="px-6 py-4 text-right space-x-4">
-                                <a href="{{ route('notices.edit', ['notice' => $notice->id]) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                <a href="{{ route('notices.destroy', ['notice' => $notice->id]) }}" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                            <td class="px-6 py-8 text-right space-x-4 flex">
+                                <a href="{{ route('admin.notices.edit', ['notice' => $notice->id]) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                <form method="post" action="{{ route('admin.notices.destroy', ['notice' => $notice->id])}}">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach

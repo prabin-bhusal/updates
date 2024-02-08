@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\NoticeController;
@@ -35,6 +36,26 @@ Route::get('news/hello', [NewsController::class, 'showDatatable'])->name('news.h
 Route::resource('/news', NewsController::class);
 Route::get('/download/file/{id}', [DownloadController::class, 'download'])->name('download.download');
 Route::resource('/download', DownloadController::class);
-Route::resource('notices', NoticeController::class);
+
+/**
+ * register routes for notices and access for users and admin
+ * 
+ * 
+ */
+Route::resource('notices', NoticeController::class)->only([
+    'index', 'show'
+]);
+Route::get('/notices/{notice}/download', [NoticeController::class, 'download'])->name('notice.download');
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::middleware(['guest:admin'])->group(function () {
+        Route::view('/login', 'admin.login');
+        Route::post('/login', [AdminAuthController::class, 'login'])->name('login');
+    });
+
+    Route::middleware(['auth:admin'])->group(function () {
+        Route::resource('notices', NoticeController::class);
+    });
+});
 
 require __DIR__ . '/auth.php';
