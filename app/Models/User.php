@@ -54,4 +54,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Download::class);
     }
+
+    /**
+     * Get the event that the user created
+     */
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
 }

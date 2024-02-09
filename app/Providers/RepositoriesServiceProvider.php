@@ -23,5 +23,6 @@ class RepositoriesServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->bind('App\Repositories\NoticeRepositoryInterface', 'App\Repositories\NoticeRepository');
+        $this->app->bind('App\Repositories\EventRepositoryInterface', 'App\Repositories\EventRepository');
     }
 }

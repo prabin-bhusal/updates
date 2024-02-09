@@ -51,4 +51,12 @@ class Admin extends Authenticatable
     {
         return $this->hasMany(Notice::class);
     }
+
+    /**
+     * Get the event that the admin created
+     */
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
 }

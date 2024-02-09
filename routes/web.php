@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\DownloadController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\ProfileController;
@@ -37,16 +38,42 @@ Route::resource('/news', NewsController::class);
 Route::get('/download/file/{id}', [DownloadController::class, 'download'])->name('download.download');
 Route::resource('/download', DownloadController::class);
 
+Route::middleware(['guest:web'])->group(function () {
+    /**
+     * register routes for notices
+     * 
+     * 
+     */
+    Route::resource('notices', NoticeController::class)->only([
+        'index', 'show'
+    ]);
+    Route::get('/notices/{notice}/download', [NoticeController::class, 'download'])->name('notice.download');
+
+    /**
+     * register routes for events
+     * 
+     * 
+     */
+    Route::resource('events', EventController::class)->only([
+        'index', 'show'
+    ]);
+});
+
 /**
- * register routes for notices and access for users and admin
+ * User access routes here
  * 
  * 
  */
-Route::resource('notices', NoticeController::class)->only([
-    'index', 'show'
-]);
-Route::get('/notices/{notice}/download', [NoticeController::class, 'download'])->name('notice.download');
 
+Route::middleware(['auth:web'])->group(function () {
+    Route::resource('events', EventController::class);
+});
+
+/**
+ * Admin access routes here
+ * 
+ * 
+ */
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['guest:admin'])->group(function () {
         Route::view('/login', 'admin.login');
@@ -55,6 +82,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware(['auth:admin'])->group(function () {
         Route::resource('notices', NoticeController::class);
+        Route::resource('events', EventController::class);
     });
 });
 
