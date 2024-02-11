@@ -2,12 +2,14 @@
 
 namespace App\Repositories;
 
+use Illuminate\Http\Request;
+
 interface NewsRepositoryInterface
 {
     public function all();
     public function search($search_news);
 
-    public function create($request);
+    public function create(Request $request);
 
     public function find($id);
 

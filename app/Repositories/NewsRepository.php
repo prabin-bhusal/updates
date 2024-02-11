@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\News;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,7 +20,7 @@ class NewsRepository implements NewsRepositoryInterface
         return News::where('title', 'LIKE', '%' . $search_news . '%')->paginate(1);
     }
 
-    public function create($request)
+    public function create(Request $request)
     {
         if ($request->has('banner_image')) {
             $file = $request->file('banner_image');
