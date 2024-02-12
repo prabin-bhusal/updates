@@ -7,7 +7,6 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserView;
-use App\Http\Controllers\UserView;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [UserView::class, 'home'])->name('home');
-Route::get('/', [UserView::class, 'home'])->name('home');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard.index');
