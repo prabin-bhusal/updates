@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,7 +24,7 @@ class NoticeFactory extends Factory
             'notice_file' => fake()->text(50),
             'notice_banner' => fake()->text(50),
             'notice_date' => fake()->date(),
-            'user_id' => User::factory(),
+            'admin_id' => 1,
         ];
     }
 }

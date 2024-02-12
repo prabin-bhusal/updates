@@ -12,12 +12,12 @@ class NewsRepository implements NewsRepositoryInterface
 {
     public function all()
     {
-        return News::with('user')->paginate(1);
+        return News::with('user')->paginate(5);
     }
 
     public function search($search_news)
     {
-        return News::where('title', 'LIKE', '%' . $search_news . '%')->paginate(1);
+        return News::where('title', 'LIKE', '%' . $search_news . '%')->paginate(5);
     }
 
     public function create(Request $request)

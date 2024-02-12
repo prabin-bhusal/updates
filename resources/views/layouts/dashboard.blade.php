@@ -162,21 +162,6 @@
     <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 
     <script>
-        // selectImage.onchange = evt => {
-        //     console.log("change")
-        //     preview = document.getElementById('preview');
-        //     preview.style.display = 'block';
-        //     const [file] = selectImage.files
-        //     if (file) {
-        //         preview.src = URL.createObjectURL(file)
-        //     }
-        // }
-
-        // ClassicEditor.create(document.querySelector('#content'))
-        //     .catch(error => {
-        //         console.error(error);
-        //     });
-
         $(function() {
             console.log("1")
 
@@ -240,9 +225,23 @@
 
             $('#myTable').DataTable().ajax.reload()
 
-
             console.log("clicked" + id)
         }
+
+        selectImage.onchange = evt => {
+            console.log("change")
+            preview = document.getElementById('preview');
+            preview.style.display = 'block';
+            const [file] = selectImage.files
+            if (file) {
+                preview.src = URL.createObjectURL(file)
+            }
+        }
+
+        ClassicEditor.create(document.querySelector('#content'))
+            .catch(error => {
+                console.error(error);
+            });
     </script>
 </body>
 

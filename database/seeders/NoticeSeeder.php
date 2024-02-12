@@ -18,7 +18,7 @@ class NoticeSeeder extends Seeder
         Notice::factory(3)
             ->state(new Sequence(
                 ['admin_id' => null],
-                ['user_id' => null],
+                // ['user_id' => null],
             ))
             ->create();
 

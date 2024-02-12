@@ -121,7 +121,7 @@
                         </div>
                         <div class="swiper-content">
                             <h3>{{ $newsArticle->title }}</h3>
-                            <p>{{ Str::limit($newsArticle->content, 100, '...') }}</p>
+                            {{ Str::limit(strip_tags($newsArticle->content), 100, '...') }}</p>
                         </div>
                     </div>
                 </div>
@@ -169,76 +169,30 @@
                         </h2>
                         <hr class="text-gray-300 mt-3 py-1" />
                         <div class="activities-container">
-                            <div class="card my-2">
-                                <a href="#"
-                                    class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
-                                    <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700 dark:text-white">
-                                        Noteworthy technology acquisitions 2021</h5>
-                                    <p class="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise
-                                        technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                                </a>
-                            </div>
-                            <div class="card my-2">
-                                <a href="#"
-                                    class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
-                                    <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700 dark:text-white">
-                                        Noteworthy technology acquisitions 2021</h5>
-                                    <p class="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise
-                                        technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                                </a>
-                            </div>
-                            <div class="card my-2">
-                                <a href="#"
-                                    class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                            @forelse ($events as $event)
+                                <div class="card my-2">
+                                    <div class="card my-2">
+                                        <a href="{{ route('user-event', [$event->id]) }}"
+                                            class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                                            <h5
+                                                class="mb-2 text-xl font-medium tracking-tight text-gray-700 dark:text-white">
+                                                {{ $event->title }}</h5>
+                                            <p class="font-normal text-gray-700 dark:text-gray-400">
+                                                {{ Str::limit($event->content, 100, '...') }}
+                                            </p>
+                                        </a>
+                                    </div>
+                                </div>
+                            @empty
+                                <p class="text-sm text-gray-500 dark:text-gray-400">No content here.</p>
+                            @endforelse
 
-                                    <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700 dark:text-white">
-                                        Noteworthy technology acquisitions 2021</h5>
-                                    <p class="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise
-                                        technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                                </a>
-                            </div>
-                            <div class="card my-2">
-                                <a href="#"
-                                    class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
-                                    <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700 dark:text-white">
-                                        Noteworthy technology acquisitions 2021</h5>
-                                    <p class="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise
-                                        technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                                </a>
-                            </div>
-                            <div class="card my-2">
-                                <a href="#"
-                                    class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
-                                    <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700 dark:text-white">
-                                        Noteworthy technology acquisitions 2021</h5>
-                                    <p class="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise
-                                        technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                                </a>
-                            </div>
-                            <div class="card my-2">
-                                <a href="#"
-                                    class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
-                                    <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700 dark:text-white">
-                                        Noteworthy technology acquisitions 2021</h5>
-                                    <p class="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise
-                                        technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                                </a>
-                            </div>
-                            <div class="card my-2">
-                                <a href="#"
-                                    class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
-                                    <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700 dark:text-white">
-                                        Noteworthy technology acquisitions 2021</h5>
-                                    <p class="font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise
-                                        technology acquisitions of 2021 so far, in reverse chronological order.</p>
-                                </a>
-                            </div>
                         </div>
                     </div>
 
@@ -263,9 +217,9 @@
                                         <li>Becoming a Member</li>
                                         <li>Browse NELTA Members</li>
                                         <li class="text-primary">Download Membership Form</li>
-                                        <button type="button"
+                                        <a href="{{ route('login') }}" type="button"
                                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">LOGIN
-                                            TO MEMBERS</button>
+                                            TO MEMBERS</a>
 
                                     </ul>
                                 </div>
@@ -288,23 +242,6 @@
                                     Message</button>
                             </div>
                         </div>
-
-                        <div class="ceo-message my-5">
-                            <h3 class="text-2xl lg:text-2xl py-4 font-bold leading-none tracking-tight text-gray-600">
-                                Message from
-                                <span>General Secretary</span>
-                            </h3>
-                            <hr class="text-gray-300 mt-3 py-1" />
-                            <div class="introductory-aside-content">
-                                <img
-                                    src="https://images.theconversation.com/files/236755/original/file-20180917-158216-t52jx0.jpg" />
-                                <h4><span>Mr.</span> Chris Gyale</h4>
-                                <p>General Secretary, Updates</p>
-                                <button type="button"
-                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">View
-                                    Message</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -313,7 +250,6 @@
     {{-- introductory section ends here --}}
 
     {{-- tab section starts here --}}
-
 
     <div class="bg-gray-100 flex justify-center py-4">
         <div class="container w-4/5">
@@ -356,7 +292,7 @@
                                 <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700 dark:text-white">
                                     {{ $newsArticle->title }}</h5>
                                 <p class="text-sm text-gray-500 dark:text-gray-400">
-                                    {{ Str::limit($newsArticle->content, 200, '...') }}</p>
+                                    {{ Str::limit(strip_tags($newsArticle->content), 200, '...') }}</p>
                             </a>
                         </div>
                     @empty
@@ -366,30 +302,74 @@
                 </div>
                 <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="dashboard" role="tabpanel"
                     aria-labelledby="dashboard-tab">
-                    <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong
-                            class="font-medium text-gray-800 dark:text-white">Dashboard tab's associated content</strong>.
-                        Clicking
-                        another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-                        control
-                        the content visibility and styling.</p>
+                    @forelse ($events as $event)
+                        <div class="card my-2">
+                            <a href="{{ route('user-event', [$event->id]) }}"
+                                class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 @if (Carbon\Carbon::now() > $event->start_date && Carbon\Carbon::now() > $event->end_date) cursor-not-allowed @endif">
+
+                                <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700 dark:text-white">
+                                    {{ $event->title }}</h5>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    {{ Str::limit(strip_tags($event->content), 200, '...') }}</p>
+                                @if (Carbon\Carbon::now() > $event->start_date && Carbon\Carbon::now() > $event->end_date)
+                                    <p class="text-red-500">Event Closed</p>
+                                @elseif(Carbon\Carbon::now() > $event->start_date)
+                                    <p class="text-green-500">Event is running</p>
+                                @else
+                                    <p class="text-blue-500">Event has not started yet</p>
+                                @endif
+                            </a>
+                        </div>
+                    @empty
+                        <p class="text-sm text-gray-500 dark:text-gray-400">No content here.</p>
+                    @endforelse
                 </div>
                 <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="settings" role="tabpanel"
                     aria-labelledby="settings-tab">
-                    <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong
-                            class="font-medium text-gray-800 dark:text-white">Settings tab's associated content</strong>.
-                        Clicking
-                        another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-                        control
-                        the content visibility and styling.</p>
+                    @forelse ($notices as $notice)
+                        <div class="card my-2">
+                            <div
+                                class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+
+                                <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700 dark:text-white">
+                                    {{ $notice->title }}</h5>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    {{ Str::limit(strip_tags($notice->content), 200, '...') }}</p>
+
+                                <div class="flex justify-between items-center mt-3">
+                                    <p class="text-blue-500">Issued Date: {{ $notice->notice_date }}</p>
+                                    <a href="{{ route('download-notice', [$notice->id]) }}"
+                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Download</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    @empty
+                        <p class="text-sm text-gray-500 dark:text-gray-400">No content here.</p>
+                    @endforelse
                 </div>
                 <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="contacts" role="tabpanel"
                     aria-labelledby="contacts-tab">
-                    <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong
-                            class="font-medium text-gray-800 dark:text-white">Contacts tab's associated content</strong>.
-                        Clicking
-                        another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-                        control
-                        the content visibility and styling.</p>
+                    @forelse ($resources as $resource)
+                        <div class="card my-2">
+                            <div
+                                class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+
+                                <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700 dark:text-white">
+                                    {{ $resource->title }}</h5>
+
+
+                                <div class="flex justify-between items-center mt-3">
+                                    <p class="text-blue-500">Issued Date: {{ $resource->created_at }}</p>
+                                    <a href="{{ route('download-resource', [$resource->id]) }}"
+                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Download</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    @empty
+                        <p class="text-sm text-gray-500 dark:text-gray-400">No content here.</p>
+                    @endforelse
                 </div>
             </div>
         </div>

@@ -21,6 +21,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [UserView::class, 'home'])->name('home');
+Route::get('/blogs', [UserView::class, 'blogs'])->name('blogs');
+Route::get('/blog/{id}', [UserView::class, 'blog'])->name('blog');
+
+Route::get('/events/list', [UserView::class, 'events'])->name('user-events');
+Route::get('/event/{id}', [UserView::class, 'event'])->name('user-event');
+
+Route::get('/notices/list', [UserView::class, 'notices'])->name('user-notices');
+Route::get('/notice/{id}/download', [UserView::class, 'downloadNotice'])->name('download-notice');
+Route::get('/resource/{id}/download', [UserView::class, 'downloadResources'])->name('download-resource');
+
+
+
 
 
 Route::get('/dashboard', function () {

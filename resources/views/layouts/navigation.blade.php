@@ -12,9 +12,17 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('home')" :active="request()->routeIs('dashboard')">
-                        {{ __('Home') }}
-                    </x-nav-link>
+                    <a href="{{ route('home') }}"
+                        class="inline-flex items-center px-1 pt-1  text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out @if (request()->route()->getName() == 'home') border-b-2 border-b-slate-800 @endif">Home</a>
+                    <a href="{{ route('blogs') }}"
+                        class="inline-flex items-center px-1 pt-1  text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out @if (request()->route()->getName() == 'blogs') border-b-2 border-b-slate-800 @endif">Blogs</a>
+                    <a href="{{ route('user-events') }}"
+                        class="inline-flex items-center px-1 pt-1  text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out @if (request()->route()->getName() == 'user-events') border-b-2 border-b-slate-800 @endif">Events</a>
+                    <a href="{{ route('user-notices') }}"
+                        class="inline-flex items-center px-1 pt-1  text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out @if (request()->route()->getName() == 'user-notices') border-b-2 border-b-slate-800 @endif">Notices</a>
+                    {{-- <a href="{{ route('blogs') }}"
+                        class="inline-flex items-center px-1 pt-1  text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out @if (request()->route()->getName() == 'blogs') border-b-2 border-b-slate-800 @endif">Download
+                        Resources</a> --}}
 
                 </div>
             </div>
