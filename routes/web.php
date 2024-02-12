@@ -3,6 +3,7 @@
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserView;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,9 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [UserView::class, 'home'])->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard.index');
@@ -28,11 +27,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('news/hello', [NewsController::class, 'showDatatable'])->name('news.hello');
+    Route::resource('/news', NewsController::class);
+    Route::get('/download/file/{id}', [DownloadController::class, 'download'])->name('download.download');
+    Route::resource('/download', DownloadController::class);
 });
 
-Route::get('news/hello', [NewsController::class, 'showDatatable'])->name('news.hello');
-Route::resource('/news', NewsController::class);
-Route::get('/download/file/{id}', [DownloadController::class, 'download'])->name('download.download');
-Route::resource('/download', DownloadController::class);
+
 
 require __DIR__ . '/auth.php';
