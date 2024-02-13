@@ -2,8 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\News;
-use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,7 +23,7 @@ class NewsFactory extends Factory
             'title' => rtrim($title, '.'),
             'content' => fake()->paragraph(5),
             'banner_image' => 'images/default.jpg',
-            'user_id' => User::factory(),
+            'admin_id' => Admin::factory(),
         ];
     }
 }

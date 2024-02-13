@@ -45,6 +45,14 @@ class Admin extends Authenticatable
     ];
 
     /**
+     * Get the news belonging to the admin
+     */
+    public function news()
+    {
+        return $this->hasMany(News::class);
+    }
+
+    /**
      * Get the notices belonging to the admin
      */
     public function notices()

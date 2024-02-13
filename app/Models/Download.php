@@ -14,8 +14,8 @@ class Download extends Model
         'title', 'download_file', 'user_id'
     ];
 
-    public function user(): BelongsTo
+    public function admin(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Admin::class);
     }
 }

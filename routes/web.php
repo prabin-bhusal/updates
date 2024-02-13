@@ -33,45 +33,46 @@ Route::get('/resource/{id}/download', [UserView::class, 'downloadResources'])->n
 
 
 
+Route::get('/notices/{notice}/download', [NoticeController::class, 'download'])->name('notice.download');
 
-
-Route::get('/dashboard', function () {
-    return view('dashboard.index');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
+// Route::get('/dashboard', function () {
+//     return view('dashboard.index');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+// Route::resource('/news', NewsController::class);
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('news/hello', [NewsController::class, 'showDatatable'])->name('news.hello');
-    Route::resource('/news', NewsController::class);
+    Route::view('/dashboard', 'dashboard.index');
+    // Route::resource('/news', NewsController::class);
     Route::get('/download/file/{id}', [DownloadController::class, 'download'])->name('download.download');
-    Route::resource('/download', DownloadController::class);
+    Route::resource('download', DownloadController::class);
 });
 
 
 
-Route::middleware(['guest:web'])->group(function () {
-    /**
-     * register routes for notices
-     * 
-     * 
-     */
-    Route::resource('notices', NoticeController::class)->only([
-        'index', 'show'
-    ]);
-    Route::get('/notices/{notice}/download', [NoticeController::class, 'download'])->name('notice.download');
+// Route::middleware(['guest:web'])->group(function () {
+//     /**
+//      * register routes for notices
+//      * 
+//      * 
+//      */
+//     Route::resource('notices', NoticeController::class)->only([
+//         'index', 'show'
+//     ]);
+//     Route::get('/notices/{notice}/download', [NoticeController::class, 'download'])->name('notice.download');
 
-    /**
-     * register routes for events
-     * 
-     * 
-     */
-    Route::resource('events', EventController::class)->only([
-        'index', 'show'
-    ]);
-});
+//     /**
+//      * register routes for events
+//      * 
+//      * 
+//      */
+//     Route::resource('events', EventController::class)->only([
+//         'index', 'show'
+//     ]);
+// });
 
 /**
  * User access routes here
@@ -79,9 +80,9 @@ Route::middleware(['guest:web'])->group(function () {
  * 
  */
 
-Route::middleware(['auth:web'])->group(function () {
-    Route::resource('events', EventController::class);
-});
+// Route::middleware(['auth:web'])->group(function () {
+//     Route::resource('events', EventController::class);
+// });
 
 /**
  * Admin access routes here
@@ -95,8 +96,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::middleware(['auth:admin'])->group(function () {
+        Route::view('dashboard', 'dashboard.index')->name('dashboard');
+        Route::resource('download', DownloadController::class);
+        Route::resource('news', NewsController::class);
         Route::resource('notices', NoticeController::class);
         Route::resource('events', EventController::class);
+        Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
     });
 });
 

@@ -20,11 +20,11 @@ class News extends Model
     }
 
     protected $fillable = [
-        'title', 'content', 'banner_image', 'user_id'
+        'title', 'content', 'banner_image', 'admin_id'
     ];
 
-    public function user(): BelongsTo
+    public function admin(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Admin::class);
     }
 }

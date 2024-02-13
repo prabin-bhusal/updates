@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateNewsRequest;
 use App\Models\News;
 use App\Repositories\NewsRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class NewsController extends Controller
 {
@@ -32,15 +33,19 @@ class NewsController extends Controller
 
     public function create()
     {
+        // only admin can access this else 402 response is returned
+        Gate::authorize('admin_authenticated');
         return view('news.create');
     }
 
 
     public function store(StoreNewsRequest $request)
     {
+        // only admin can access this else 402 response is returned
+        Gate::authorize('admin_authenticated');
         $newsData = $this->newsRepository->create($request);
 
-        return redirect()->route('news.index')->with('message', 'Successfully created');
+        return redirect()->route('admin.news.index')->with('message', 'Successfully created');
     }
 
     public function show(News $news)
@@ -51,20 +56,26 @@ class NewsController extends Controller
 
     public function edit(News $news)
     {
+        // only admin can access this else 402 response is returned
+        Gate::authorize('admin_authenticated');
         return view('news.edit', ['news' => $news]);
     }
 
     public function update(UpdateNewsRequest $request, News $news)
     {
+        // only admin can access this else 402 response is returned
+        Gate::authorize('admin_authenticated');
         $updatedData = $this->newsRepository->update($request, $news);
 
-        return redirect()->route('news.index');
+        return redirect()->route('admin.news.index');
     }
 
     public function destroy(News $news)
     {
+        // only admin can access this else 402 response is returned
+        Gate::authorize('admin_authenticated');
         $deletedData = $this->newsRepository->delete($news);
 
-        return redirect()->route('news.index');
+        return redirect()->route('admin.news.index');
     }
 }

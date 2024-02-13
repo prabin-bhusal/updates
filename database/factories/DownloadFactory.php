@@ -21,7 +21,7 @@ class DownloadFactory extends Factory
         return [
             'title' => rtrim($title, '.'),
             'download_file' => 'files/123.pdf',
-            'user_id' => 1,
+            'admin_id' => 1,
         ];
     }
 }

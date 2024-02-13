@@ -5,62 +5,46 @@ namespace App\Policies;
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class EventPolicy
 {
     /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Event $event): bool
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function createByUser($user): bool
     {
-        //
+        return Auth::guard('web')->check();
+    }
+
+    public function createByAdmin($user): bool
+    {
+        return Request()->routeIs('admin.*') && Auth::guard('admin')->check();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Event $event): bool
+    public function updateByUser($user, Event $event): bool
     {
-        //
+        return $event->user_id == $user->id;
+    }
+
+    public function updateByAdmin($user, Event $event): bool
+    {
+        return $event->admin_id != null && Auth::guard('admin')->check();
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Determine whether the user can update the model.
      */
-    public function delete(User $user, Event $event): bool
+    public function deleteByUser($user, Event $event): bool
     {
-        //
+        return $event->user_id == $user->id;
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Event $event): bool
+    public function deleteByAdmin($user, Event $event): bool
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Event $event): bool
-    {
-        //
+        return $event->admin_id != null && Auth::guard('admin')->check();
     }
 }

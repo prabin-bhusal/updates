@@ -25,6 +25,7 @@ class NoticeRepository implements NoticeRepositoryInterface
             // trim the path
             $cover_image_path = Str::substr($cover_image_path, 23,);
             $download_file_path = Str::substr($download_file_path, 25,);
+            $adminId = Auth::guard('admin')->user()->id;
 
             Notice::create([
                 'title' => $title,
@@ -32,7 +33,7 @@ class NoticeRepository implements NoticeRepositoryInterface
                 'notice_file' => $download_file_path,
                 'notice_banner' => $cover_image_path,
                 'notice_date' => $notice_date,
-                'admin_id' => Auth::guard('admin')->user()->id,
+                'admin_id' => $adminId,
             ]);
         });
     }

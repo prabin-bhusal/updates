@@ -12,7 +12,7 @@ class NewsRepository implements NewsRepositoryInterface
 {
     public function all()
     {
-        return News::with('user')->paginate(5);
+        return News::paginate(5);
     }
 
     public function search($search_news)

@@ -66,7 +66,7 @@ class EventController extends Controller
     {
         $this->eventRepository->updateEvent($request, $event);
 
-        return redirect(route('events.show', ['event' => $event->id]));
+        return redirect(route('admin.events.show', ['event' => $event->id]));
     }
 
     /**
@@ -74,6 +74,8 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        return $this->eventRepository->destroyEvent($event);
+        Event::destroy($event->id);
+
+        return redirect(route('admin.events.index'));
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin;
 use App\Models\News;
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,7 +15,7 @@ class NewsSeeder extends Seeder
     public function run(): void
     {
         News::factory(5)
-            ->for(User::factory())
+            ->for(Admin::factory())
             ->create();
     }
 }

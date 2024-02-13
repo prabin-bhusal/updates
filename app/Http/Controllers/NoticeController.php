@@ -40,7 +40,8 @@ class NoticeController extends Controller
     public function create()
     {
         // only admin can access this else 402 response is returned
-        Gate::authorize('admin_authenticated');
+        $this->authorize('create', Notice::class);
+        // Gate::authorize('admin_authenticated');
         return view('notices.create');
     }
 
@@ -50,7 +51,8 @@ class NoticeController extends Controller
     public function store(StoreNoticeRequest $request)
     {
         // only admin can access this else 402 response is returned
-        Gate::authorize('admin_authenticated');
+        $this->authorize('create', Notice::class);
+        // Gate::authorize('admin_authenticated');
 
         $title = $request->title;
         $content = $request->content;
@@ -60,7 +62,7 @@ class NoticeController extends Controller
 
         $this->noticeRepository->storeNotice($title, $content, $cover_image, $download_file, $notice_date);
 
-        return redirect(route('notices.index'));
+        return redirect(route('admin.notices.index'));
     }
 
     /**
@@ -77,7 +79,8 @@ class NoticeController extends Controller
     public function edit(Notice $notice)
     {
         // only admin can access this else 402 response is returned
-        Gate::authorize('admin_authenticated');
+        $this->authorize('update', $notice);
+        // Gate::authorize('admin_authenticated');
 
         return view('notices.edit', ['notice' => $notice]);
     }
@@ -88,7 +91,8 @@ class NoticeController extends Controller
     public function update(UpdateNoticeRequest $request, Notice $notice)
     {
         // only admin can access this else 402 response is returned
-        Gate::authorize('admin_authenticated');
+        $this->authorize('update', $notice);
+        // Gate::authorize('admin_authenticated');
 
         $title = $request->title;
         $content = $request->content;
@@ -98,7 +102,7 @@ class NoticeController extends Controller
 
         $this->noticeRepository->updateNotice($notice, $title, $content, $cover_image, $download_file, $notice_date);
 
-        return redirect(route('notices.show', ['notice' => $notice->id]));
+        return redirect(route('admin.notices.show', ['notice' => $notice->id]));
     }
 
     /**
@@ -107,11 +111,12 @@ class NoticeController extends Controller
     public function destroy(Notice $notice)
     {
         // only admin can access this else 402 response is returned
+        $this->authorize('delete', $notice);
         Gate::authorize('admin_authenticated');
 
         $this->noticeRepository->destroyNotice($notice);
 
-        return redirect(route('notices.index'));
+        return redirect(route('admin.notices.index'));
     }
 
     /**
