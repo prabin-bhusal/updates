@@ -20,7 +20,7 @@ class DownloadController extends Controller
 
         if (request()->ajax()) {
             $data = Download::latest()->get();
-            // dd($data);
+            
             return DataTables::of($data)
                 ->addIndexColumn()
 
@@ -144,7 +144,7 @@ class DownloadController extends Controller
     public function destroy(Download $download)
     {
         //
-
+        // dd("Why is the method not allowed!!");
         Storage::delete("public/files/" . $download->download_file);
 
         Download::destroy($download->id);

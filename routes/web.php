@@ -70,7 +70,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('news', NewsController::class);
         Route::resource('notices', NoticeController::class);
         Route::resource('events', EventController::class);
-        // Route::resource('download', DownloadController::class);
+        Route::resource('download', DownloadController::class);
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
     });
 });
