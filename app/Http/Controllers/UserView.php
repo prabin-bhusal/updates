@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEventRequest;
+use App\Http\Requests\UpdateEventRequest;
 use App\Models\Download;
 use App\Models\Event;
 use App\Models\News;
 use App\Models\Notice;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Console\Input\Input;
 
@@ -73,6 +77,51 @@ class UserView extends Controller
         return view('event', ['event' => $event, 'blogs' => $blogs, 'events' => $events, 'notices' => $notices, 'resources' => $resources]);
     }
 
+    public function createEvent()
+    {
+        return view('createEvent');
+    }
+
+    public function storeEvent(StoreEventRequest $request)
+    {
+        DB::transaction(function () use ($request) {
+            $user_id = Auth::user()->id;
+            $admin_id = null;
+
+            Event::create([
+                'title' => $request->title,
+                'venue' => $request->venue,
+                'content' => $request->content,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'admin_id' => $admin_id,
+                'user_id' => $user_id,
+            ]);
+        });
+
+        return redirect()->route('/');
+    }
+
+    public function editEvent(Request $request, Event $event)
+    {
+        if ($request->user()->cannot('updateByUser', $event)) {
+            abort(401);
+        }
+        return view('editEvent', ['event' => $event]);
+    }
+
+    public function updateEvent(UpdateEventRequest $request, Event $event)
+    {
+        DB::transaction(function () use ($request, $event) {
+            if ($request->user()->cannot('updateByUser', $event)) {
+                abort(401);
+            }
+
+            $event->update($request->all());
+        });
+    }
+
+
     public function notices()
     {
         $blogs = News::orderBy('created_at', 'desc')->limit(5)->get();
@@ -81,10 +130,6 @@ class UserView extends Controller
         $resources = Download::orderBy('created_at', 'desc')->limit(5)->get();
         return view('notices', ['blogs' => $blogs, 'events' => $events, 'notices' => $notices, 'resources' => $resources]);
     }
-
-    // public function notice()
-    // {
-    // }
 
     public function downloadNotice(String $notice)
     {

@@ -45,6 +45,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/events/create', [UserView::class, 'createEvent'])->name('user-create-event');
+    Route::post('/event', [UserView::class, 'storeEvent'])->name('user-store-event');
+
+    Route::get('/events/{event}/edit', [UserView::class, 'editEvent'])->name('user-edit-event');
+    Route::put('/events/{event}', [UserView::class, 'updateEvent'])->name('user-update-event');
+
     // Route::get('news/hello', [NewsController::class, 'showDatatable'])->name('news.hello');
     // Route::view('/dashboard', 'dashboard.index');
     // Route::resource('/news', NewsController::class);
@@ -65,6 +71,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::middleware(['auth:admin'])->group(function () {
+        Route::get('/', function () {
+            return view('dashboard.index');
+        });
         Route::view('dashboard', 'dashboard.index')->name('dashboard');
         Route::resource('download', DownloadController::class);
         Route::resource('news', NewsController::class);
