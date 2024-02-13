@@ -2,8 +2,51 @@
 
 @section('content')
     <div class= "flex justify-end items-start tile col-span-1 md:col-span-3 lg:col-span-4 bottom-1 px-4">
-        <div class="w-5/6 md:w-5/6 lg:w-4/6 flex justify-center flex-col">
+        <div class="w-6/6 md:w-5/6 lg:w-4/6 flex justify-center flex-col">
             <div class="mb-5 container bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900">
+
+                        <form method="GET" action="{{ route('user-events') }}">
+                            <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                                <div class="flex flex-col">
+                                    <label for="title" class="text-stone-600 text-sm font-medium">Title</label>
+                                    <input type="text" id="title" name="title"
+                                        placeholder="New movie releasing on monday"
+                                        class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" />
+                                </div>
+
+                                <div class="flex flex-col">
+                                    <label for="from-date" class="text-stone-600 text-sm font-medium">From date</label>
+                                    <input type="date" id="from-date" name="event_date[gt]"
+                                        class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" />
+                                </div>
+
+                                <div class="flex flex-col">
+                                    <label for="to-date" class="text-stone-600 text-sm font-medium">To date</label>
+                                    <input type="date" id="to-date" name="event_date[lt]"
+                                        class=" mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50" />
+                                </div>
+
+                                <!-- <div class="flex flex-col">
+                                                        <label for="status" class="text-stone-600 text-sm font-medium">Status</label>
+                        
+                                                        <select id="status" class="mt-2 block w-full rounded-md border border-gray-200 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                                                            <option>Dispached Out</option>
+                                                            <option>In Warehouse</option>
+                                                            <option>Being Brought In</option>
+                                                        </select>
+                                                    </div> -->
+                                <div class="mt-6 grid w-full grid-cols-2 justify-end space-x-4 md:flex">
+                                    {{-- <button
+                                        class="active:scale-95 rounded-lg bg-gray-200 px-8 py-2 font-medium text-gray-600 outline-none focus:ring hover:opacity-90">Reset</button> --}}
+                                    <button
+                                        class="active:scale-95 rounded-lg bg-blue-600 px-8 py-2 font-medium text-white outline-none focus:ring hover:opacity-90">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <div class="news-container">
                     {{-- <img src=" {{ asset('/storage/images/' . $blog->banner_image) }} " style="" /> --}}
                     <div class="px-3 py-5 mb-5">
