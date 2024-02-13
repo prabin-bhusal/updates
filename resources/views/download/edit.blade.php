@@ -5,7 +5,7 @@
         <h2
             class="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl dark:text-white">
             Download Files</h2>
-        <a href="{{ route('news.index') }}" class="text-blue-600 hover:text-yellow-800 hover:cursor-pointer">Back</a>
+        <a href="{{ route('admin.news.index') }}" class="text-blue-600 hover:text-yellow-800 hover:cursor-pointer">Back</a>
     </div>
     <div>
         <div class="py-12">

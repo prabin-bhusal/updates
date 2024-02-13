@@ -40,7 +40,7 @@ class EventController extends Controller
     public function store(StoreEventRequest $request)
     {
         $this->eventRepository->storeEvent($request);
-        return redirect(route('events.index'));
+        return redirect(route('admin.events.index'));
     }
 
     /**
