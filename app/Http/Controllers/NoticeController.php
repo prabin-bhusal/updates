@@ -58,6 +58,7 @@ class NoticeController extends Controller
         $download_file = $request->file('file_upload');
         $notice_date = $request->notice_date;
 
+
         $this->noticeRepository->storeNotice($title, $content, $cover_image, $download_file, $notice_date);
 
         return redirect(route('notices.index'));

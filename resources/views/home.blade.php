@@ -286,7 +286,7 @@
                     aria-labelledby="profile-tab">
                     @forelse ($news as $newsArticle)
                         <div class="card my-2">
-                            <a href="#"
+                            <a href="{{ route('blog', [$newsArticle->id]) }}"
                                 class="block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
 
                                 <h5 class="mb-2 text-xl font-medium tracking-tight text-gray-700 dark:text-white">

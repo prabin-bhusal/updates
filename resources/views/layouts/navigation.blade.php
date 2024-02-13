@@ -57,8 +57,9 @@
 
             <div class="mt-3 space-y-1 flex flex-col">
                 <a href="">Home</a>
-                <a href="">Home</a>
-                <a href="">Home</a>
+                <a href="{{ route('blogs') }}">Blogs</a>
+                <a href="{{ route('user-events') }}">Events</a>
+                <a href="{{ route('user-notices') }}">Notices</a>
 
             </div>
         </div>

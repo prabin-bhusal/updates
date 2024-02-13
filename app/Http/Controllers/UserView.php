@@ -6,8 +6,10 @@ use App\Models\Download;
 use App\Models\Event;
 use App\Models\News;
 use App\Models\Notice;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Console\Input\Input;
 
 class UserView extends Controller
 {
@@ -40,10 +42,22 @@ class UserView extends Controller
         return view('blog', ['blog' => $blog, 'blogs' => $blogs, 'events' => $events, 'notices' => $notices, 'resources' => $resources]);
     }
 
-    public function events()
+    public function events(Request $request)
     {
+        // dd($request);
+        // dd($request->get('title'));
+        $qTitle = $request->input('title') ?? '';
+        $qStart = $request->query('event_date')['gt']  ?? '0000-01-01';
+        $qEnd = $request->input('event_date')['lt']  ?? '3000-01-01';
+
+        // dd($qTitle, $qEnd, $qStart);
+
         $blogs = News::orderBy('created_at', 'desc')->limit(5)->get();
-        $events = Event::orderBy('start_date', 'desc')->paginate(5);
+        $events =  Event::where('title', 'LIKE', '%' . $qTitle . '%')
+            ->whereDate('start_date', '>=', $qStart)
+            ->whereDate('end_date', '<=', $qEnd)
+            ->paginate(5);
+
         $notices = Notice::orderBy('created_at', 'desc')->limit(5)->get();
         $resources = Download::orderBy('created_at', 'desc')->limit(5)->get();
         return view('events', ['blogs' => $blogs, 'events' => $events, 'notices' => $notices, 'resources' => $resources]);
