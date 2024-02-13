@@ -34,6 +34,7 @@ Route::get('/resource/{id}/download', [UserView::class, 'downloadResources'])->n
 
 
 Route::get('/notices/{notice}/download', [NoticeController::class, 'download'])->name('notice.download');
+Route::get('/download/file/{id}', [DownloadController::class, 'download'])->name('download.download');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard.index');
@@ -44,45 +45,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('news/hello', [NewsController::class, 'showDatatable'])->name('news.hello');
-    Route::view('/dashboard', 'dashboard.index');
+    // Route::get('news/hello', [NewsController::class, 'showDatatable'])->name('news.hello');
+    // Route::view('/dashboard', 'dashboard.index');
     // Route::resource('/news', NewsController::class);
-    Route::get('/download/file/{id}', [DownloadController::class, 'download'])->name('download.download');
-    Route::resource('download', DownloadController::class);
+    // Route::get('/download/file/{id}', [DownloadController::class, 'download'])->name('download.download');
+    // Route::resource('download', DownloadController::class);
+    // Route::resource('events', EventController::class);
 });
-
-
-
-// Route::middleware(['guest:web'])->group(function () {
-//     /**
-//      * register routes for notices
-//      * 
-//      * 
-//      */
-//     Route::resource('notices', NoticeController::class)->only([
-//         'index', 'show'
-//     ]);
-//     Route::get('/notices/{notice}/download', [NoticeController::class, 'download'])->name('notice.download');
-
-//     /**
-//      * register routes for events
-//      * 
-//      * 
-//      */
-//     Route::resource('events', EventController::class)->only([
-//         'index', 'show'
-//     ]);
-// });
-
-/**
- * User access routes here
- * 
- * 
- */
-
-// Route::middleware(['auth:web'])->group(function () {
-//     Route::resource('events', EventController::class);
-// });
 
 /**
  * Admin access routes here
@@ -101,6 +70,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('news', NewsController::class);
         Route::resource('notices', NoticeController::class);
         Route::resource('events', EventController::class);
+        // Route::resource('download', DownloadController::class);
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
     });
 });

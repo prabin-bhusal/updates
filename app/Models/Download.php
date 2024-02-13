@@ -11,7 +11,7 @@ class Download extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'download_file', 'user_id'
+        'title', 'download_file', 'admin_id'
     ];
 
     public function admin(): BelongsTo

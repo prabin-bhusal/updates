@@ -25,7 +25,7 @@ class DownloadController extends Controller
                 ->addIndexColumn()
 
                 ->addColumn('action', function ($row) {
-                    $actionBtn = '<a href="/download/' . $row['id'] . '/edit" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" data-id="' . $row['id'] . '" onclick="deleteData(' . $row['id'] . ')"  class="delete btn btn-danger btn-sm">Delete</a>';
+                    $actionBtn = '<a href="download/' . $row['id'] . '/edit" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" data-id="' . $row['id'] . '" onclick="deleteData(' . $row['id'] . ')"  class="delete btn btn-danger btn-sm">Delete</a>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
@@ -71,7 +71,7 @@ class DownloadController extends Controller
 
         $downloadData = Download::create($data);
 
-        return redirect()->route('download.index')->with('message', 'Successfully created');
+        return redirect()->route('admin.download.index')->with('message', 'Successfully created');
     }
 
     /**
@@ -87,7 +87,7 @@ class DownloadController extends Controller
         return response()->file($path . $download->download_file, [
             'Content-Type' => 'application/pdf'
         ]);
-        return view('download.show', ['download' => $download]);
+        return view('admin.download.show', ['download' => $download]);
     }
 
     public function download(String $download)
@@ -135,7 +135,7 @@ class DownloadController extends Controller
             ]);
         }
 
-        return redirect()->route('download.index');
+        return redirect()->route('admin.download.index');
     }
 
     /**
@@ -148,6 +148,6 @@ class DownloadController extends Controller
         Storage::delete("public/files/" . $download->download_file);
 
         Download::destroy($download->id);
-        return redirect()->route('download.index');
+        return redirect()->route('admin.download.index');
     }
 }

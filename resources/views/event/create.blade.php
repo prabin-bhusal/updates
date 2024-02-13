@@ -13,7 +13,7 @@
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900">
 
-                <form method="post" action="{{ route('events.store') }}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('admin.events.store') }}" enctype="multipart/form-data">
                     @csrf
                     @method('post')
                     <div class="space-y-12">

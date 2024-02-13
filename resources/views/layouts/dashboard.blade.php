@@ -142,7 +142,7 @@
                 serverSide: true,
                 responsive: true,
                 "autoWidth": false,
-                ajax: "{{ route('download.index') }}",
+                ajax: "{{ route('admin.download.index') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
@@ -173,7 +173,7 @@
         });
 
         function deleteData(e) {
-
+            
             url = url.replace(':id', e);
             console.log(e);
             $.ajaxSetup({
